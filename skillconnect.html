@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillConnect - Find Local Experts Instantly</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="skillconnect.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR-->
+  <nav>
+    <div class="nav-logo" onclick="showPage('home')">⚡ SkillConnect </div>
+    <div class="nav-links">
+      <button class="nav-btn ghost" onclick="showPage('search')">Find Experts</button>
+      <button class="nav-btn ghost" onclick="showPage('chat')">💬 Chat</button>
+      <button class="nav-btn ghost hidden" id="dashNav" onclick="showPage('dashboard')">Dashboard</button>
+      <button class="nav-btn ghost hidden" id="adminNav" onclick="showPage('admin')">⚙ Admin</button>
+      <button class="nav-btn ghost hidden" id="logoutNav" onclick="logout()">Logout</button>
+      <button class="nav-btn primary" id="loginNav" onclick="openModal('authModal')">Login / Register</button>
+    </div>
+  </nav>
+
+  <!-- Home page -->
+  <div id="page-home" class="page active">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-glow2"></div>
+      <div class="hero-badge">🇮🇳 India's #1 Local Service Platform</div>
+      <h1>Find <span>Skilled Experts</span><br>Near You, Instantly</h1>
+      <p>Connect with verified plumbers, teachers, electricians, doctors & 50+ more service providers across India.</p>
+
+      <div class="search-bar">
+        <input type="text" id="heroSearch" placeholder="🔍 Search e.g. Engineering, Electi..."
+          aria-label="Search for services" />
+        <div class="sep"></div>
+        <select id="heroCity" aria-label="Select city">
+          <option value="">📍 All Cities</option>
+          <option>Mumbai</option>
+          <option>Delhi</option>
+          <option>Bengaluru</option>
+          <option>Hyderabad</option>
+          <option>Chennai</option>
+          <option>Kolkata</option>
+          <option>Pune</option>
+          <option>Ahmedabad</option>
+          <option>Jaipur</option>
+          <option>Surat</option>
+          <option>Lucknow</option>
+          <option>Kanpur</option>
+          <option>Nagpur</option>
+          <option>Indore</option>
+          <option>Thane</option>
+          <option>Bhopal</option>
+          <option>Visakhapatnam</option>
+          <option>Patna</option>
+          <option>Vadodara</option>
+          <option>Ghaziabad</option>
+          <option>Ludhiana</option>
+          <option>Agra</option>
+          <option>Nashik</option>
+          <option>Faridabad</option>
+          <option>Meerut</option>
+          <option>Rajkot</option>
+          <option>Varanasi</option>
+          <option>Srinagar</option>
+          <option>Aurangabad</option>
+          <option>Dhanbad</option>
+          <option>Amritsar</option>
+          <option>Allahabad (Prayagraj)</option>
+          <option>Ranchi</option>
+          <option>Howrah</option>
+          <option>Coimbatore</option>
+          <option>Jabalpur</option>
+          <option>Gwalior</option>
+          <option>Vijayawada</option>
+          <option>Madurai</option>
+          <option>Raipur</option>
+          <option>Kota</option>
+          <option>Chandigarh</option>
+          <option>Guwahati</option>
+          <option>Solapur</option>
+          <option>Hubli-Dharwad</option>
+          <option>Mysuru</option>
+          <option>Tiruchirappalli</option>
+          <option>Bareilly</option>
+          <option>Aligarh</option>
+          <option>Tirupati</option>
+          <option>Noida</option>
+          <option>Gurgaon (Gurugram)</option>
+          <option>Jalandhar</option>
+          <option>Bhubaneswar</option>
+          <option>Salem</option>
+          <option>Warangal</option>
+          <option>Mangalore</option>
+          <option>Udaipur</option>
+          <option>Dehradun</option>
+          <option>Shimla</option>
+          <option>Panaji</option>
+        </select>
+        <button class="search-btn" onclick="doSearch()">Search →</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">24K+</div>
+          <div class="stat-label">Experts</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">180K+</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4.8★</div>
+          <div class="stat-label">Avg. Rating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POPULAR CATEGORIES -->
+    <div class="section">
+      <h2 class="section-title">Popular Categories</h2>
+      <p class="section-sub">Explore services across all professional categories</p>
+      <div class="cats-grid" id="catsGrid"></div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">Get your work done in 3 simple steps</p>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num">1</div>
+          <div class="how-title">Search & Filter</div>
+          <div class="how-desc">Search by skill, location, and distance. Smart filters show the best match first.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">2</div>
+          <div class="how-title">View & Compare</div>
+          <div class="how-desc">Check detailed profiles, ratings, reviews, and pricing. Chat before you book.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">3</div>
+          <div class="how-title">Book & Pay</div>
+          <div class="how-desc">Schedule an appointment, pay securely, and leave a review after service.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">4</div>
+          <div class="how-title">Rate & Repeat</div>
+          <div class="how-desc">Leave honest ratings. Save favorites. Rebook anytime in one tap.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED PROVIDERS -->
+    <div class="section">
+      <h2 class="section-title">Top Rated Experts</h2>
+      <p class="section-sub">Handpicked professionals with verified credentials</p>
+      <div class="providers-grid" id="featuredProviders"></div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <div class="section">
+      <h2 class="section-title">What Our Users Say</h2>
+      <p class="section-sub">Thousands of happy clients across India</p>
+      <div class="testi-grid" id="testiGrid"></div>
+    </div>
+
+ <!-- About me -->
+  <h1 class="me">👦About me</h1>
+  <br>
+  <hr />
+  <hr />
+  <div class="abhay">
+    <img src="/Abhay.jpeg" alt="Abhay Yadav" class="abhayimg">
+    <div>
+      <p class="about_me">Hi, I’m Abhay Yadav, an engineering student with a strong interest in technology and innovation. I
+        have experience in
+        front-end , and I enjoy building practical projects that solve real-world problems.
+        Recently, I’ve been exploring ideas like meeT uP a Number free chatting application , aiming to
+        create solutions that make a positive impact on people’s lives.</p>
+    </div>
+  </div>
+
+    <!-- APP DOWNLOAD -->
+    <div class="app-section">
+      <h2>Get the SkillConnect App</h2>
+      <p>Book services, track bookings, chat with experts — all from your phone.</p>
+      <div class="app-btns">
+        <div class="app-btn" onclick="toast('📱 App Store coming soon!')">
+          <div class="app-btn-icon">🍎</div>
+          <div class="app-btn-text">
+            <div class="app-btn-label">Download on the</div>
+            <div class="app-btn-name">App Store</div>
+          </div>
+        </div>
+        <div class="app-btn" onclick="toast('📱 Play Store coming soon!')">
+          <div class="app-btn-icon">🤖</div>
+          <div class="app-btn-text">
+            <div class="app-btn-label">Get it on</div>
+            <div class="app-btn-name">Google Play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Search page -->
+  <div id="page-search" class="page">
+    <div class="search-page">
+      <div class="search-header">
+        <h2 class="search-title" id="searchTitle">All Experts</h2>
+        <p class="search-count" id="searchCount">Loading...</p>
+      </div>
+
+      <div class="filters-row">
+        <div class="filter-group">
+          <label class="filter-label" for="filterCat">Category</label>
+          <select class="filter-select" id="filterCat" aria-label="Filter by category">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="filterCity">City</label>
+          <select class="filter-select" id="filterCity" aria-label="Filter by city">
+            <option value="">All Cities</option>
+            <option>Mumbai</option>
+            <option>Delhi</option>
+            <option>Bengaluru</option>
+            <option>Hyderabad</option>
+            <option>Chennai</option>
+            <option>Kolkata</option>
+            <option>Pune</option>
+            <option>Ahmedabad</option>
+            <option>Jaipur</option>
+            <option>Surat</option>
+            <option>Lucknow</option>
+            <option>Kanpur</option>
+            <option>Nagpur</option>
+            <option>Indore</option>
+            <option>Thane</option>
+            <option>Bhopal</option>
+            <option>Visakhapatnam</option>
+            <option>Patna</option>
+            <option>Vadodara</option>
+            <option>Ghaziabad</option>
+            <option>Ludhiana</option>
+            <option>Agra</option>
+            <option>Nashik</option>
+            <option>Faridabad</option>
+            <option>Meerut</option>
+            <option>Rajkot</option>
+            <option>Varanasi</option>
+            <option>Srinagar</option>
+            <option>Aurangabad</option>
+            <option>Dhanbad</option>
+            <option>Amritsar</option>
+            <option>Allahabad (Prayagraj)</option>
+            <option>Ranchi</option>
+            <option>Howrah</option>
+            <option>Coimbatore</option>
+            <option>Jabalpur</option>
+            <option>Gwalior</option>
+            <option>Vijayawada</option>
+            <option>Madurai</option>
+            <option>Raipur</option>
+            <option>Kota</option>
+            <option>Chandigarh</option>
+            <option>Guwahati</option>
+            <option>Solapur</option>
+            <option>Hubli-Dharwad</option>
+            <option>Mysuru</option>
+            <option>Tiruchirappalli</option>
+            <option>Bareilly</option>
+            <option>Aligarh</option>
+            <option>Tirupati</option>
+            <option>Noida</option>
+            <option>Gurgaon (Gurugram)</option>
+            <option>Jalandhar</option>
+            <option>Bhubaneswar</option>
+            <option>Salem</option>
+            <option>Warangal</option>
+            <option>Mangalore</option>
+            <option>Udaipur</option>
+            <option>Dehradun</option>
+            <option>Shimla</option>
+            <option>Panaji</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="filterRating">Min Rating</label>
+          <select class="filter-select" id="filterRating" aria-label="Filter by minimum rating">
+            <option value="">Any Rating</option>
+            <option value="4.5">4.5+</option>
+            <option value="4">4.0+</option>
+            <option value="3">3.0+</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="filterPrice">Max Price (₹/hr)</label>
+          <input type="number" class="filter-input" id="filterPrice" placeholder="Any Price"
+            aria-label="Maximum price per hour" />
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="filterSort">Sort By</label>
+          <select class="filter-select" id="filterSort" aria-label="Sort results by">
+            <option value="rating">Highest Rated</option>
+            <option value="price_low">Lowest Price</option>
+            <option value="price_high">Highest Price</option>
+            <option value="exp">Most Experienced</option>
+          </select>
+        </div>
+        <button class="filter-apply" onclick="applyFilters()">Apply Filters</button>
+      </div>
+
+      <div class="providers-grid" id="searchResults"></div>
+
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="page-dashboard" class="page">
+    <div class="dashboard">
+      <div class="dashboard-header">
+        <h2 class="dashboard-title" id="dashTitle">My Dashboard</h2>
+        <p class="dashboard-sub" id="dashSub">Welcome back!</p>
+      </div>
+
+      <div class="kpi-grid" id="kpiGrid"></div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'bookings')">📅 Bookings</div>
+        <div class="tab" onclick="switchTab(this,'profile')">👤 My Profile</div>
+        <div class="tab" id="earningsTab" onclick="switchTab(this,'earnings')">💰 Earnings</div>
+        <div class="tab" onclick="switchTab(this,'calendar')">🗓 Calendar</div>
+        <div class="tab" onclick="switchTab(this,'settings')">⚙ Settings</div>
+      </div>
+
+      <div class="tab-content active" id="tc-bookings">
+        <div class="booking-list" id="bookingList"></div>
+      </div>
+
+      <div class="tab-content" id="tc-profile">
+        <div class="max-width-560">
+          <div class="form-group">
+            <label class="form-label" for="profileName">Full Name</label>
+            <input class="form-input" id="profileName" value="Abhay Yadav" aria-label="Full name" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="profileCat">Category / Skill</label>
+              <select class="form-select" id="profileCat" aria-label="Select your category or skill">
+                <option>Developer</option>
+                <option>Electrician</option>
+                <option>Plumber</option>
+                <option>Doctor</option>
+                <option>Teacher</option>
+                <option>Carpenter</option>
+                <option>Painter</option>
+                <option>Welder</option>
+                <option>Mechanic</option>
+                <option>Designer</option>
+                <option>Driver</option>
+                <option>Gardener</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="profileExp">Experience (years)</label>
+              <input class="form-input" type="number" id="profileExp" value="5" aria-label="Years of experience" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="profileCity">City</label>
+              <select class="form-select" id="profileCity" aria-label="Select your city">
+                <option>Mumbai</option>
+                <option>Delhi</option>
+                <option>Bengaluru</option>
+                <option>Kolkata</option>
+                <option>Chennai</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="profileRate">Rate (₹/hour)</label>
+              <input class="form-input" type="number" id="profileRate" value="500" aria-label="Your hourly rate" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="profileBio">Bio</label>
+            <textarea class="form-textarea" id="profileBio"
+              aria-label="Your professional bio">Experienced professional with 5+ years. Available on weekdays and weekends.</textarea>
+          </div>
+          <div class="form-group">
+            <label class="toggle">
+              <input type="checkbox" class="toggle-input" id="profileAvail" checked>
+              <div class="toggle-slider"></div>
+              <span class="toggle-label">Available for new bookings</span>
+            </label>
+          </div>
+          <button class="btn btn-primary btn-max-200" onclick="saveProfile()">Save Profile</button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tc-earnings">
+        <div class="kpi-grid kpi-grid-3">
+          <div class="kpi-card">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-val">₹24,500</div>
+            <div class="kpi-label">This Month</div>
+            <div class="kpi-change">▲ 18% vs last month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">📊</div>
+            <div class="kpi-val">₹1.8L</div>
+            <div class="kpi-label">This Year</div>
+            <div class="kpi-change">▲ 32% vs last year</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">⭐</div>
+            <div class="kpi-val">4.8</div>
+            <div class="kpi-label">Avg. Rating</div>
+            <div class="kpi-change">Based on 86 reviews</div>
+          </div>
+        </div>
+        <h3 class="heading-16">Monthly Earnings (₹)</h3>
+        <div class="earnings-card">
+          <div class="chart-bar-container" id="earningsChart"></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tc-calendar">
+        <div class="max-width-400">
+          <h3 class="heading-18">📅 April 2026</h3>
+          <div class="calendar-grid" id="calGrid"></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tc-settings">
+        <div class="max-width-560">
+          <h3 class="heading-18-settings">Account Settings</h3>
+          <div class="form-group">
+            <label class="form-label" for="phoneNumber">Phone Number</label>
+            <input class="form-input" id="phoneNumber" value="+91 916154246" aria-label="Your phone number" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emailAddress">Email Address</label>
+            <input class="form-input" type="email" id="emailAddress" value="abhay@example.com"
+              aria-label="Your email address" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="serviceRadius">Service Radius</label>
+            <select class="form-select" id="serviceRadius" aria-label="Select your service radius">
+              <option>1 km</option>
+              <option>2 km</option>
+              <option selected>5 km</option>
+              <option>10 km</option>
+              <option>Any Distance</option>
+            </select>
+          </div>
+          <div class="divider"></div>
+          <h3 class="heading-18-notif">Notifications</h3>
+          <div class="form-flex-column">
+            <label class="toggle"><input type="checkbox" class="toggle-input" checked>
+              <div class="toggle-slider"></div><span class="toggle-label">Email notifications</span>
+            </label>
+            <label class="toggle"><input type="checkbox" class="toggle-input" checked>
+              <div class="toggle-slider"></div><span class="toggle-label">SMS notifications</span>
+            </label>
+            <label class="toggle"><input type="checkbox" class="toggle-input">
+              <div class="toggle-slider"></div><span class="toggle-label">Promotional updates</span>
+            </label>
+          </div>
+          <div class="divider"></div>
+          <button class="btn btn-primary btn-max-200" onclick="toast('✅ Settings saved!')">Save Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- chat section -->
+  <div id="page-chat" class="page">
+    <div class="chat-wrapper">
+      <div class="chat-layout">
+        <div class="chat-sidebar">
+          <div class="chat-sidebar-header">
+            <div class="chat-sidebar-title">24/7 Helpeline</div>
+          </div>
+          <div id="chatContacts"></div>
+        </div>
+        <div class="chat-main">
+          <div class="chat-header" id="chatHeader">
+            <div class="chat-contact-avatar av-purple chat-avatar-large">👨‍🔧</div>
+            <div>
+              <div class="chat-contact-name">Abhay Yadav</div>
+              <div class="status-online">● Online</div>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chatInput" placeholder="Type a message..."
+              onkeydown="if(event.key==='Enter')sendMsg()" />
+            <button class="send-btn" onclick="sendMsg()">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Admin page -->
+  <div id="page-admin" class="page">
+    <div class="dashboard">
+      <div class="dashboard-header">
+        <h2 class="dashboard-title">⚙ Admin Panel</h2>
+        <p class="dashboard-sub">Manage users, providers, and platform analytics</p>
+      </div>
+
+      <div class="admin-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon">👥</div>
+          <div class="kpi-val">24,381</div>
+          <div class="kpi-label">Total Providers</div>
+          <div class="kpi-change">▲ 312 new this week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🛒</div>
+          <div class="kpi-val">1,84,200</div>
+          <div class="kpi-label">Total Customers</div>
+          <div class="kpi-change">▲ 2,100 new this week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">📋</div>
+          <div class="kpi-val">4,812</div>
+          <div class="kpi-label">Bookings Today</div>
+          <div class="kpi-change">▲ 8% vs yesterday</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">💸</div>
+          <div class="kpi-val">₹84L</div>
+          <div class="kpi-label">Monthly Revenue</div>
+          <div class="kpi-change">▲ 21% vs last month</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'a-providers')">🔧 Providers</div>
+        <div class="tab" onclick="switchTab(this,'a-users')">👤 Customers</div>
+        <div class="tab" onclick="switchTab(this,'a-reports')">🚨 Reports</div>
+        <div class="tab" onclick="switchTab(this,'a-categories')">📂 Categories</div>
+      </div>
+
+      <div class="tab-content active" id="tc-a-providers">
+        <table class="admin-table" id="adminProvidersTable"></table>
+      </div>
+      <div class="tab-content" id="tc-a-users">
+        <table class="admin-table" id="adminUsersTable"></table>
+      </div>
+      <div class="tab-content" id="tc-a-reports">
+        <table class="admin-table" id="adminReportsTable"></table>
+      </div>
+      <div class="tab-content" id="tc-a-categories">
+        <div class="category-input-row">
+          <input class="filter-input category-input-max" id="newCatInput" placeholder="New category name..." />
+          <button class="filter-apply" onclick="addCategory()">+ Add Category</button>
+        </div>
+        <div class="cats-grid" id="adminCatsGrid"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authModal" onclick="if(event.target===this)closeModal('authModal')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+      <h2 class="modal-title">Welcome to SkillConnect</h2>
+      <p class="modal-sub">Login or create your account</p>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
+        <div class="auth-tab" onclick="switchAuthTab('register')">Register</div>
+      </div>
+
+      <div id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email / Phone</label>
+          <input class="form-input" id="loginEmail" placeholder="Enter email or phone"
+            aria-label="Email or phone number" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPass">Password</label>
+          <input class="form-input" type="password" id="loginPass" placeholder="Enter password" aria-label="Password" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginRole">Login as</label>
+          <select class="form-select" id="loginRole" aria-label="Select login role">
+            <option value="customer">Customer</option>
+            <option value="provider">Service Provider</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn-flex-1" onclick="doLogin()">Login →</button>
+        </div>
+      </div>
+
+      <div id="registerForm" class="hidden">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="regFirstName">First Name</label>
+            <input class="form-input" id="regFirstName" placeholder="Abhay" aria-label="First name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regLastName">Last Name</label>
+            <input class="form-input" id="regLastName" placeholder="Yadav" aria-label="Last name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email</label>
+          <input class="form-input" id="regEmail" type="email" placeholder="abhay@example.com"
+            aria-label="Email address" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regPhone">Phone (OTP will be sent)</label>
+          <div class="form-flex">
+            <input class="form-input btn-flex-1" id="regPhone" placeholder="+91 9161564246"
+              aria-label="Phone number" />
+            <button class="btn btn-secondary btn-no-wrap" onclick="toast('📱 OTP sent to your phone!')">Send
+              OTP</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regRole">Register as</label>
+          <select class="form-select" id="regRole" onchange="toggleProviderFields()"
+            aria-label="Select registration role">
+            <option value="customer">Customer</option>
+            <option value="provider">Service Provider</option>
+          </select>
+        </div>
+        <div id="providerFields" class="hidden">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="providerSkill">Skill / Category</label>
+              <select class="form-select" id="providerSkill" aria-label="Select your skill or category">
+                <option>Developer</option>
+                <option>Electrician</option>
+                <option>Plumber</option>
+                <option>Teacher</option>
+                <option>Doctor</option>
+                <option>Mechanic</option>
+                <option>Painter</option>
+                <option>Carpenter</option>
+                <option>Designer</option>
+                
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="providerExp">Experience (yrs)</label>
+              <input class="form-input" id="providerExp" type="number" placeholder="5"
+                aria-label="Years of experience" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="providerRate">Rate (₹/hour)</label>
+            <input class="form-input" id="providerRate" type="number" placeholder="500" aria-label="Your hourly rate" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Password</label>
+          <input class="form-input" id="regPassword" type="password" placeholder="Min. 8 characters"
+            aria-label="Password" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary btn-flex-1" onclick="doRegister()">Create Account →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK MODAL -->
+  <div class="modal-overlay" id="bookModal" onclick="if(event.target===this)closeModal('bookModal')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('bookModal')">✕</button>
+      <h2 class="modal-title">Book Appointment</h2>
+      <p class="modal-sub" id="bookModalSub">Book with this provider</p>
+      <div class="form-group">
+        <label class="form-label" for="bookService">Service Required</label>
+        <input class="form-input" id="bookService" placeholder="Describe what you need..."
+          aria-label="Service description" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="bookDate">Preferred Date</label>
+          <input class="form-input" type="date" id="bookDate" aria-label="Preferred booking date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="bookTime">Preferred Time</label>
+          <select class="form-select" id="bookTime" aria-label="Preferred booking time">
+            <option>9:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>2:00 PM</option>
+            <option>3:00 PM</option>
+            <option>4:00 PM</option>
+            <option>5:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bookAddress">Address / Location</label>
+        <input class="form-input" id="bookAddress" placeholder="Enter your full address"
+          aria-label="Your full address" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bookNotes">Additional Notes</label>
+        <textarea class="form-textarea" id="bookNotes" placeholder="Any specific requirements..."
+          aria-label="Additional booking notes"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('bookModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmBooking()">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEW MODAL -->
+  <div class="modal-overlay" id="reviewModal" onclick="if(event.target===this)closeModal('reviewModal')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('reviewModal')">✕</button>
+      <h2 class="modal-title">Leave a Review</h2>
+      <p class="modal-sub">Share your experience</p>
+      <div class="form-group">
+        <label class="form-label">Rating</label>
+        <div class="rating-input" id="ratingInput">
+          <span class="rating-star" data-val="1" onclick="setRating(1)">★</span>
+          <span class="rating-star" data-val="2" onclick="setRating(2)">★</span>
+          <span class="rating-star" data-val="3" onclick="setRating(3)">★</span>
+          <span class="rating-star" data-val="4" onclick="setRating(4)">★</span>
+          <span class="rating-star" data-val="5" onclick="setRating(5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reviewText">Review</label>
+        <textarea class="form-textarea" id="reviewText" placeholder="How was your experience?"
+          aria-label="Your review"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('reviewModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROVIDER DETAIL MODAL -->
+  <div class="modal-overlay modal-overlay-top" id="providerModal"
+    onclick="if(event.target===this)closeModal('providerModal')">
+    <div class="modal modal-max-700">
+      <button class="modal-close" onclick="closeModal('providerModal')">✕</button>
+      <div id="providerModalContent"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="skillconnect.js"></script>
+</body>
+
+</html>
